@@ -1,0 +1,28 @@
+# vscode
+.vscode
+__pycache__
+*.code-workspace
+*.pyc
+
+# jupyter notebook
+*.ipynb_checkpoints
+
+# test code
+test_*
+
+# weights file
+*.pth
+*.onnx
+
+# paper
+*.ppt
+*.pdf
+*.docx
+*.tmp
+
+# temp file
+temp/
+backup/
+
+*.sh
+*.bat
