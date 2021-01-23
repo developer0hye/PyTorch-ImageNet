@@ -1,4 +1,3 @@
-import torch
 import torch.nn as nn
 
 class ConvBnLeakyReLU(nn.Module):
@@ -35,6 +34,13 @@ class YOLOv3TinyBackbone(nn.Module):
         self.gap = nn.AdaptiveAvgPool2d((1, 1))
         self.fc = nn.Linear(1024, num_classes)
 
+        for m in self.modules():
+            if isinstance(m, nn.Conv2d):
+                nn.init.kaiming_normal_(m.weight, mode='fan_out', nonlinearity='relu')
+            elif isinstance(m, (nn.BatchNorm2d, nn.GroupNorm)):
+                nn.init.constant_(m.weight, 1)
+                nn.init.constant_(m.bias, 0)
+
     def extract_featrues(self, x):
         feature_pyramid = {}
 
@@ -55,7 +61,7 @@ class YOLOv3TinyBackbone(nn.Module):
         feature_pyramid = self.extract_featrues(x)
 
         x = self.gap(feature_pyramid["stride 32"])
-        x = x.flatten(start_dim=2)
+        x = x.flatten(start_dim=1)
         x = self.fc(x)
         
         return x

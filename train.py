@@ -85,8 +85,6 @@ def train(model, criterion, optimizer, scaler, train_dataset_loader, epoch, tota
     top1_accuracy_batch = []
     top5_accuracy_batch = []
     
-    all_sample_numbers = len(train_dataset_loader)
-
     t1 = time.time()
     for i, (input, target) in enumerate(train_dataset_loader):
         optimizer.zero_grad()
@@ -173,7 +171,8 @@ if __name__ == '__main__':
         validation_dataset, batch_size=args.batch_size, shuffle=False,
         num_workers=args.workers, pin_memory=True, drop_last=False)
     
-    model_dict = {'whitenet': whitenet.WhiteNet()}
+    model_dict = {'whitenet': whitenet.WhiteNet(),
+                  'tiny': tiny.YOLOv3TinyBackbone()}
 
     model = model_dict[args.model_architecture]
     model = model.to(device)
