@@ -193,7 +193,7 @@ if __name__ == '__main__':
     best_top1_accuracy = 0.
 
     if args.pretrained_weights != "":
-        checkpoint = torch.load(args.pretrained_weight)
+        checkpoint = torch.load(args.pretrained_weights)
 
         start_epoch = checkpoint['epoch'] + 1
         model.load_state_dict(checkpoint['model_state_dict'])
