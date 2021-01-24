@@ -7,7 +7,7 @@ import numpy as np
 import torch
 import torch.nn as nn
 from torch.optim.lr_scheduler import *
-import datasets.dataset as dataset
+import dataset.dataset as dataset
 
 from models import *
 
@@ -42,7 +42,7 @@ parser.add_argument('--seed', default=777, type=int,
 
 parser.add_argument('--start-epoch', default=0, type=int)
 
-parser.add_argument('--pretrained-weight', default='', type=str)
+parser.add_argument('--pretrained-weights', default='', type=str)
 
 parser.add_argument('--model-architecture', default='whitenet', type=str)
                     
