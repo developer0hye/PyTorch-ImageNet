@@ -2,12 +2,9 @@ import os
 import cv2
 import albumentations as A
 import albumentations.pytorch as Atorch
-import numpy as np
-from PIL import Image
 
 import torch
 from torch.utils.data import Dataset
-from torchvision import transforms
 
 
 def load_dataset(dataset_path):
@@ -35,7 +32,7 @@ class ImageClassificationDataset(Dataset):
         self.imgs, self.labels = load_dataset(dataset_path)
 
         if phase == "train":
-            self.transform = A.Compose([A.RandomResizedCrop(224, 224),
+            self.transform = A.Compose([A.RandomResizedCrop(224, 224, always_apply=True, p=1),
                                         A.HorizontalFlip(p=0.5),
                                         A.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225]),
                                         Atorch.ToTensor()])
@@ -57,6 +54,3 @@ class ImageClassificationDataset(Dataset):
 
     def __len__(self):
         return len(self.imgs)
-    
-if __name__ == '__main__':
-    dataset = ImageClassificationDataset(dataset_path='D:/datasets/classification/MiniImageNet/train')
