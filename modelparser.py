@@ -1,6 +1,11 @@
-import argparse
+import numpy as np
 import torch
+
+import argparse
+
 from pathlib import Path
+
+from models import *
 
 device = torch.device('cuda:0' if torch.cuda.is_available() else 'cpu')
 
@@ -20,7 +25,13 @@ if __name__ == '__main__':
         best_top1_accuracy = f'{best_top1_accuracy: .2f}'
         best_top1_accuracy = best_top1_accuracy.replace(' ', '')
 
-        print(f"best_top1_accuracy(%): ", best_top1_accuracy)
+        num_params = 0
+        for key in model_state_dict:
+            layer_param_shape = list(model_state_dict[key].shape)
+            num_params += int(np.prod(layer_param_shape))
+           
+        print(f"num_params: {num_params:,d}")
+        print(f"best_top1_accuracy(%): {best_top1_accuracy}")
 
         model_name = Path(args.pretrained_weights).resolve().stem
         torch.save(model_state_dict, model_name + f"_top1acc{best_top1_accuracy}.pth")
